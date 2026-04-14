@@ -9,6 +9,7 @@ using ProductCatalogAPI.Services;
 public class ProductController : ControllerBase
 {
     private readonly IProductService _service;
+    private readonly ILogger<ProductController> _logger;
 
     public ProductController(IProductService service)
     {
@@ -20,6 +21,7 @@ public class ProductController : ControllerBase
     public async Task<IActionResult> GetAllAsync()
     {
         var products = await _service.GetAllAsync();
+        _logger.LogInformation("Fetching all products");
 
         return Ok(products);
     }
@@ -29,6 +31,7 @@ public class ProductController : ControllerBase
     public async Task<IActionResult> CreateAsync(CreateProductDTO dto)
     {
         var product = await _service.CreateAsync(dto);
+        _logger.LogInformation($"Created: {product.Id}");
 
         return CreatedAtAction(nameof(GetByIdAsync), new { id = product.Id }, product);
     }
@@ -41,7 +44,9 @@ public class ProductController : ControllerBase
 
         if (product == null)
             return NotFound();
+            
 
+        _logger.LogInformation($"Fetched data: {product.Id}");
         return Ok(product);
     }
 
@@ -54,6 +59,7 @@ public class ProductController : ControllerBase
         if (product == null)
             return NotFound();
 
+        _logger.LogInformation($"Updated: {product.Id}");
         return Ok("ID: " + product + " is Updated Successfully! ");
     }
 
@@ -66,6 +72,7 @@ public class ProductController : ControllerBase
         if (!success)
             return NotFound();
 
+        _logger.LogInformation($"Deleted: {id}");
         return NoContent();
     }
 
@@ -77,6 +84,7 @@ public class ProductController : ControllerBase
 
         if (result == null) return NotFound();
 
+        _logger.LogInformation($"Fetched Data: {keyword}");
         return Ok(result);
     }
 }
