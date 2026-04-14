@@ -1,6 +1,7 @@
 Product Catalog API
 
 Overview
+
 This is a sample RESTful API built using ASP.NET Core and Entity Framework Core.
 It allows users to manage products including creating, retrieving, updating, and deleting data.
 
